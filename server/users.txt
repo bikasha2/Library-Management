@@ -3,70 +3,60 @@
         "id": 1,
         "emailId": "hary@gmail.com",
         "password": "6888ggfb7",
-        "role": "ADMIN",
-        "status": "AVAILABLE"
+        "role": "ADMIN"
     },
     {
         "id": 2,
         "emailId": "marry@gmail.com",
         "password": "hjhjdb4kl",
-        "role": "STUDENT",
-        "status": "AVAILABLE"
+        "role": "STUDENT"
     },
     {
         "id": 3,
         "emailId": "mark@gmail.com",
         "password": "mark@gmail.com",
-        "role": "STUDENT",
-        "status": "AVAILABLE"
+        "role": "ADMIN"
     },
     {
         "id": 4,
         "emailId": "fales@gmail.com",
         "password": "jikdfh454j",
-        "role": "STUDENT",
-        "status": "AVAILABLE"
+        "role": "STUDENT"
     },
     {
         "id": 5,
         "emailId": "cs@gmail.com",
         "password": "kjkfdkj448",
-        "role": "STUDENT",
-        "status": "AVAILABLE"
+        "role": "ADMIN"
     },
     {
         "id": 6,
         "emailId": "sing@gmail.com",
         "password": "y8jdf8jd",
-        "role": "STUDENT",
-        "status": "AVAILABLE"
+        "role": "STUDENT"
     },
     {
         "id": 7,
         "emailId": "raj@gmail.com",
         "password": "njjxh3538j",
-        "role": "STUDENT",
-        "status": "AVAILABLE"
+        "role": "STUDENT"
     },
     {
         "id": 8,
         "emailId": "kumar@gmail.com",
         "password": "kdzkm4r9dk",
-        "role": "ADMIN",
-        "status": "AVAILABLE"
+        "role": "STUDENT"
     },
     {
         "id": 9,
         "emailId": "sushil@gmail.com",
         "password": "oskdu3j9d",
-        "role": "ADMIN",
-        "status": "AVAILABLE"
+        "role": "ADMIN"
     },
     {
         "id": 10,
         "emailId": "twist@gmail.com",
         "password": "99dh4bf8d",
-        "role": "STUDENT",
-        "status": "AVAILABLE"
+        "role": "STUDENT"
     }
 ]

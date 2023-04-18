@@ -4,7 +4,6 @@ const User = require('../userModel');
 const userRoles = require('../roles');
 const fs = require('fs/promises');
 const path = require('path');
-const userStatus = require('../status');
 const users = [
   {
     id: 1,
@@ -68,12 +67,12 @@ const users = [
               ...user,
               password: encryptedPassword,
               role: Object.values(userRoles)[Math.floor(Math.random() * 2)],
-              status: Object.values(userStatus)[Math.floor(Math.random() * 1)],
             });
           });
         });
       })
     );
+    console.log(finalUsers)
     mongoose = await dbConfig();
     await User.insertMany(finalUsers);
     await fs.writeFile(
@@ -82,7 +81,6 @@ const users = [
         users.map((user, index) => ({
           ...user,
           role: finalUsers[index].role,
-          status: finalUsers[index].status,
         })),
         null,
         4

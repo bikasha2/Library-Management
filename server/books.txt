@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Ulysses",
+        "category": "CLASSICS",
+        "status": "AVAILABLE",
+        "_id": "643e56c97fcbf687a0b6a10f",
+        "createdAt": "2023-04-18T08:37:29.796Z",
+        "updatedAt": "2023-04-18T08:37:29.796Z"
+    },
+    {
+        "name": "Don Quixote",
+        "category": "HORROR",
+        "status": "AVAILABLE",
+        "_id": "643e56c97fcbf687a0b6a110",
+        "createdAt": "2023-04-18T08:37:29.796Z",
+        "updatedAt": "2023-04-18T08:37:29.796Z"
+    },
+    {
+        "name": "One Hundred Years",
+        "category": "CRIME",
+        "status": "AVAILABLE",
+        "_id": "643e56c97fcbf687a0b6a111",
+        "createdAt": "2023-04-18T08:37:29.796Z",
+        "updatedAt": "2023-04-18T08:37:29.796Z"
+    },
+    {
+        "name": "The Great Gatsby",
+        "category": "FANTASY",
+        "status": "AVAILABLE",
+        "_id": "643e56c97fcbf687a0b6a112",
+        "createdAt": "2023-04-18T08:37:29.797Z",
+        "updatedAt": "2023-04-18T08:37:29.797Z"
+    },
+    {
+        "name": "Moby Dick",
+        "category": "HISTORICAL",
+        "status": "AVAILABLE",
+        "_id": "643e56c97fcbf687a0b6a113",
+        "createdAt": "2023-04-18T08:37:29.797Z",
+        "updatedAt": "2023-04-18T08:37:29.797Z"
+    }
+]

@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const CONSTANTS = require('../shared/constants');
 const util = require('../shared/util');
 const userRoles = require('./roles');
-const userStatus = require("./status");
 const Schema = mongoose.Schema;
 
 // Create Schema
@@ -23,10 +22,6 @@ const UserSchema = new Schema({
     role: {
         type: String,
         enum: [...Object.values(userRoles)],
-      },
-    status: {
-    type: String,
-    enum: [...Object.values(userStatus)],
     },
 },
 {

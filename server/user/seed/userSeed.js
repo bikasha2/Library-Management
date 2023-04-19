@@ -62,17 +62,17 @@ const users = [
     const finalUsers = await Promise.all(
       users.map(({ id, ...user }) => {
         return new Promise((resolve, reject) => {
-          encryptPassword(user.password).then((encryptedPassword) => {
-            resolve({
-              ...user,
-              password: encryptedPassword,
-              role: Object.values(userRoles)[Math.floor(Math.random() * 2)],
+          encryptPassword(user.password)
+            .then((encryptedPassword) => {
+              resolve({
+                ...user,
+                password: encryptedPassword,
+                role: Object.values(userRoles)[Math.floor(Math.random() * 2)],
+              });
             });
-          });
         });
       })
     );
-    console.log(finalUsers)
     mongoose = await dbConfig();
     await User.insertMany(finalUsers);
     await fs.writeFile(

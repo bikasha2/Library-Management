@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const CONSTANTS = require('../shared/constants');
-const bookCategory = require("./bookCategory");
 const bookStatus = require("./bookStatus");
 const Schema = mongoose.Schema;
 
@@ -15,12 +14,12 @@ const BookSchema = new Schema({
         type: String,
         unique: true,
         required: [true, CONSTANTS.CATEGORY_REQUIRED],
-        enum: [...Object.values(bookCategory)],
     },
     status: {
         type: String,
         required: [true, CONSTANTS.STATUS_REQUIRED],
-        enum: [...Object.values(bookStatus)]
+        enum: [...Object.values(bookStatus)],
+        default: bookStatus.AVAILABLE,
     },
     assignedTo: { type: Schema.Types.ObjectId, ref: 'user' },
 
@@ -30,4 +29,4 @@ const BookSchema = new Schema({
     versionKey: false 
 });
 
-module.exports = User = mongoose.model("book", BookSchema);
+module.exports = Book = mongoose.model("book", BookSchema);

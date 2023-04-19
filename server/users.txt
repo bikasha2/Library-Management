@@ -9,13 +9,13 @@
         "id": 2,
         "emailId": "marry@gmail.com",
         "password": "hjhjdb4kl",
-        "role": "STUDENT"
+        "role": "ADMIN"
     },
     {
         "id": 3,
         "emailId": "mark@gmail.com",
         "password": "mark@gmail.com",
-        "role": "ADMIN"
+        "role": "STUDENT"
     },
     {
         "id": 4,
@@ -33,13 +33,13 @@
         "id": 6,
         "emailId": "sing@gmail.com",
         "password": "y8jdf8jd",
-        "role": "STUDENT"
+        "role": "ADMIN"
     },
     {
         "id": 7,
         "emailId": "raj@gmail.com",
         "password": "njjxh3538j",
-        "role": "STUDENT"
+        "role": "ADMIN"
     },
     {
         "id": 8,
@@ -51,7 +51,7 @@
         "id": 9,
         "emailId": "sushil@gmail.com",
         "password": "oskdu3j9d",
-        "role": "ADMIN"
+        "role": "STUDENT"
     },
     {
         "id": 10,

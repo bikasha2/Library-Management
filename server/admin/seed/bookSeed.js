@@ -3,7 +3,6 @@ const Book = require('../bookModel');
 const fs = require('fs/promises');
 const path = require('path');
 const bookStatus = require('../bookStatus');
-const bookCategory = require('../bookCategory');
 const books = [
   {
     id: 1,

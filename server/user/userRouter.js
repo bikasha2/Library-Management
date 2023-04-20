@@ -7,5 +7,7 @@ const userController = require('./userController')
 
 userRouter.use(verifyAuthMiddleware)
 userRouter.post('/book/book-name', roleValidationMiddleware(userRoles.STUDENT), userController.searchBook);
+userRouter.post('/book/:bookId/assign', roleValidationMiddleware(userRoles.STUDENT), userController.assignBook)
+userRouter.post('/book/:emailId/check-assign', roleValidationMiddleware(userRoles.STUDENT), userController.checkAssignBook)
 
 module.exports = userRouter;

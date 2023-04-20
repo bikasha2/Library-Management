@@ -23,6 +23,7 @@ const UserSchema = new Schema({
         type: String,
         enum: [...Object.values(userRoles)],
     },
+    assignedTo: { type: Schema.Types.ObjectId, ref: 'book' },
 },
 {
     timestamps: true,

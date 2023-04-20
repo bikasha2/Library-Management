@@ -21,7 +21,7 @@ const BookSchema = new Schema({
         enum: [...Object.values(bookStatus)],
         default: bookStatus.AVAILABLE,
     },
-    assignedTo: { type: Schema.Types.ObjectId, ref: 'user' },
+    // assignedTo: { type: Schema.Types.ObjectId, ref: 'user' },
 
 },
 {

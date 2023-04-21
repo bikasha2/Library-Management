@@ -11,7 +11,7 @@ const searchBook = async(name) => {
    return serachedBook;
 }
 
-const assignBook = async(emailId, bookId) => {
+const borrowBook = async(emailId, bookId) => {
     const _bookId = new mongoose.Types.ObjectId(bookId);
     const book = await Book.findById(_bookId);
     if(!book) {
@@ -32,8 +32,7 @@ const assignBook = async(emailId, bookId) => {
 }
 
 const checkAssignBook = async(emailId) => {
-    const _emailId = new mongoose.Types.ObjectId(emailId);
-    const user = await User.findById(_emailId);
+    const user = await User.findOne({emailId});
     if(!user) {
         throw new NotFoundException();
     }
@@ -46,8 +45,29 @@ const checkAssignBook = async(emailId) => {
     };
 }
 
+const returnBook = async(emailId, bookId) => {
+    const _bookId = new mongoose.Types.ObjectId(bookId);
+    const book = await Book.findById(_bookId);
+    if(!book) {
+        throw new NotFoundException();
+    }
+    const user = emailId === '' ? null : await User.findOne({emailId});
+    if(user.assignedTo.equals(_bookId)) {
+        user.assignedTo = null;
+        const updateUser = await user.save();
+        return updateUser;
+    }
+    if(emailId === '') {
+        return null;
+    } 
+    return {
+        msg: 'Book id did not match !'
+    }
+}
+
 module.exports = {
     searchBook,
-    assignBook,
+    borrowBook,
     checkAssignBook,
+    returnBook
 }

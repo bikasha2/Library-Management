@@ -9,25 +9,35 @@ const searchBook = asyncHandler(async(req, res) => {
     });
 });
 
-const assignBook = asyncHandler(async(req, res) => {
-    const {emailId} = req.body;
+const borrowBook = asyncHandler(async(req, res) => {
+    const emailId = req.emailId;
     const {bookId} = req.params;
-    const bookAssigned = await userService.assignBook(emailId, bookId);
+    const bookBorrowed = await userService.borrowBook(emailId, bookId);
     res.status(200).json({
-        data: bookAssigned,
+        data: bookBorrowed,
     });
 });
 
 const checkAssignBook = asyncHandler(async(req, res) => {
-    const {emailId} = req.params;
+    const emailId = req.emailId
     const bookAssigned = await userService.checkAssignBook(emailId);
     res.status(200).json({
         bookAssigned,
     });
 });
 
+const returnBook = asyncHandler(async(req, res) => {
+    const emailId = req.emailId;
+    const {bookId} = req.params;
+    const returnedBook = await userService.returnBook(emailId, bookId);
+    res.status(200).json({
+        data: returnedBook
+    });
+});
+
 module.exports = {
     searchBook,
-    assignBook,
+    borrowBook,
     checkAssignBook,
+    returnBook,
 }

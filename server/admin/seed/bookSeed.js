@@ -44,7 +44,6 @@ const books = [
         });
       })
     );
-    console.log(finalBooks)
     mongoose = await dbConfig();
     const insertedBooks = await Book.insertMany(finalBooks);
     await fs.writeFile(

@@ -35,9 +35,17 @@ const returnBook = asyncHandler(async(req, res) => {
     });
 });
 
+const getBooks = asyncHandler(async(req, res) => {
+    const books = await userService.getBooks();
+    res.status(200).json({
+        data: books
+    });
+});
+
 module.exports = {
     searchBook,
     borrowBook,
     checkAssignBook,
     returnBook,
+    getBooks,
 }

@@ -65,9 +65,15 @@ const returnBook = async(emailId, bookId) => {
     }
 }
 
+const getBooks = async() => {
+    const books = await Book.find();
+    return books;
+}
+
 module.exports = {
     searchBook,
     borrowBook,
     checkAssignBook,
-    returnBook
+    returnBook,
+    getBooks
 }

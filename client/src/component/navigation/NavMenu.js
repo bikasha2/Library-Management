@@ -1,56 +1,24 @@
-import React, { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContextProvider';
-import { AUTH_REDUCER_ACTION } from '../../reducer/AuthReducer';
-import styles from './NavMenu.module.css';
+import Navbar from 'react-bootstrap/Navbar';
 
-const NavMenu = ({ hideManageTicketMenu }) => {
-  const location = useLocation();
-  const { state, dispatch } = useContext(AuthContext);
-  const logoutHandler = (event) => {
-    sessionStorage.clear('token');
-    dispatch({
-      type: AUTH_REDUCER_ACTION.LOGOUT,
-    });
-  };
+function NavMenu() {
   return (
-    <>
-      <Nav className='bg-success justify-content-end text-white align-items-center py-2 px-4 justify-content-between'>
-        <h1 className='fs-4'>Library Management System</h1>
-        {!hideManageTicketMenu && !state.token ? (
-          <Nav.Item className={`mx-2 ${styles['menu-item']}`}>
-            <Link
-              className='text-white text-decoration-none'
-              to='/books'
-            >
-              Book
-            </Link>
-          </Nav.Item>
-        ) : null}
-        {location.pathname === '/login' ? (
-          <Nav.Item className={`mx-2 ${styles['menu-item']}`}>
-            <Link
-              className='text-white text-decoration-none'
-              to='/login'
-              replace={true}
-            >
-              Login
-            </Link>
-          </Nav.Item>
-        ) : null}
-        {state.token ? (
-             <Nav.Item
-                className={`mx-2 ${styles['menu-item']}`}
-                onClick={logoutHandler}
-              >
-               Sign Out
-              </Nav.Item>
-        ) : null}
-      </Nav>
-    </>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top" >
+      <Container>
+        <Navbar.Brand href="#home">Library Management System</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/addbook">Add Book</Nav.Link>
+          </Nav>
+          <Nav>
+            <Nav.Link href="/login">SignOut</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
-};
+}
 
 export default NavMenu;

@@ -8,14 +8,14 @@ const AuthContextProvider = ({children}) => {
         emailId: sessionStorage.getItem('emailId'),
     });
     return(
-        <AuthContextProvider
+        <AuthContext.Provider
             value={{
                 state,
                 dispatch,
             }}
         >
             {children}
-        </AuthContextProvider>
+        </AuthContext.Provider>
     )
 };
 

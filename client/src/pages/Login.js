@@ -73,7 +73,7 @@ function Login() {
                       variant='success'
                       type='submit'
                       disabled={loginIsInProgress}
-                      style={{maxWidth: 'min(30%,20rem)'}}
+                      style={{ marginTop: '4vh', height: '100% !important', width: '100% !important'}}
                     >
                       {loginIsInProgress ? <Spinner /> : 'Submit'}
                     </Button>

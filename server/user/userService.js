@@ -2,6 +2,7 @@ const { default: mongoose } = require('mongoose')
 const Book = require('../admin/bookModel')
 const User = require('./userModel')
 const NotFoundException = require('../shared/exception/NotFoundException')
+const bookStatus = require('../admin/bookStatus')
 
 const searchBook = async(name) => {
    const serachedBook = await Book.find({name: name})
@@ -14,6 +15,8 @@ const searchBook = async(name) => {
 const borrowBook = async(emailId, bookId) => {
     const _bookId = new mongoose.Types.ObjectId(bookId);
     const book = await Book.findById(_bookId);
+    book.status = bookStatus.ASSIGNED;
+    await book.save();
     if(!book) {
         throw new NotFoundException();
     }
@@ -48,6 +51,8 @@ const checkAssignBook = async(emailId) => {
 const returnBook = async(emailId, bookId) => {
     const _bookId = new mongoose.Types.ObjectId(bookId);
     const book = await Book.findById(_bookId);
+    book.status = bookStatus.AVAILABLE;
+    await book.save();
     if(!book) {
         throw new NotFoundException();
     }

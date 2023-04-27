@@ -6,6 +6,7 @@ const AuthContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(authReducer, {
         token: sessionStorage.getItem('token'),
         emailId: sessionStorage.getItem('emailId'),
+        role: sessionStorage.getItem('role'),
     });
     return(
         <AuthContext.Provider

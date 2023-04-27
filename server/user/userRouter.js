@@ -6,7 +6,7 @@ const userRouter = Router();
 const userController = require('./userController')
 
 userRouter.use(verifyAuthMiddleware)
-userRouter.get('/getbooks', roleValidationMiddleware(userRoles.STUDENT), userController.getBooks);
+userRouter.get('/getbooks', userController.getBooks);
 userRouter.post('/book/book-name', roleValidationMiddleware(userRoles.STUDENT), userController.searchBook);
 userRouter.post('/book/:bookId/borrow', roleValidationMiddleware(userRoles.STUDENT), userController.borrowBook);
 userRouter.post('/book/check-assign', roleValidationMiddleware(userRoles.STUDENT), userController.checkAssignBook);

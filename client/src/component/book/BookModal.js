@@ -49,7 +49,7 @@ function ModalBook(props) {
                     <span className='text-danger fw-bold mx-1'>*</span>
                     <Form.Control
                       type='text'
-                      placeholder='Email'
+                      placeholder='Name'
                       ref={nameRef}
                       name='emailId'
                       required

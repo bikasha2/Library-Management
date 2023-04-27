@@ -23,8 +23,8 @@ function NavMenu() {
           <Nav className="me-auto">
           </Nav>
           <Nav>
-            <Navbar.Brand>Hi ! {state.emailId}</Navbar.Brand>
-            <Navbar.Brand>({state.role})</Navbar.Brand>
+            {/* <Navbar.Brand>Hi ! {state.emailId}</Navbar.Brand>
+            <Navbar.Brand>({state.role})</Navbar.Brand> */}
             {state.role === "ADMIN" ? BookModal() : null}
             <Nav.Link href="/" onClick={logOut}>LogOut</Nav.Link>
           </Nav>

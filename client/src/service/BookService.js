@@ -25,7 +25,6 @@ const addBook = async(name, category, token) => {
 };
 
 const borrowBook = async(id, token) => {
-    console.log(id, token)
     return axiosInstance.post(`${API_URL_CONSTANTS.BOOK}/${id}${API_URL_CONSTANTS.BORROW}`,{},
     {
         headers: {
@@ -35,7 +34,6 @@ const borrowBook = async(id, token) => {
 };
 
 const returnBook = async(id, token) => {
-    console.log(id, token)
     return axiosInstance.post(`${API_URL_CONSTANTS.BOOK}/${id}${API_URL_CONSTANTS.RETURN}`,{},
     {
         headers: {

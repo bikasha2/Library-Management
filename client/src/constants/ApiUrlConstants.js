@@ -5,7 +5,9 @@ const API_URL_CONSTANTS = {
     ADDBOOK: '/book',
     BORROW: '/borrow',
     BOOK: '/book',
-    RETURN: '/return'
+    RETURN: '/return',
+    CHECKASSIGN: '/check-assign',
+    BOOKNAME: '/book-name'
 };
 
 export default API_URL_CONSTANTS;

@@ -24,7 +24,6 @@ function Login() {
     setLoginIsInProgress(true);
     loginUser({ emailId, password })
       .then((res) => {
-        console.log(res)
         sessionStorage.setItem('token', res.data.data.token);
         dispatch({
           type: AUTH_REDUCER_ACTION.LOGIN,

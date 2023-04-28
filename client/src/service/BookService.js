@@ -42,9 +42,31 @@ const returnBook = async(id, token) => {
     });
 };
 
+const checkAssignBook = async(token) => {
+    return axiosInstance.post(`${API_URL_CONSTANTS.BOOK}${API_URL_CONSTANTS.CHECKASSIGN}`,{},
+    {
+        headers: {
+            Authorization: token,
+        },
+    });
+};
+
+const searchBook = async(token, name) => {
+    return axiosInstance.post(`${API_URL_CONSTANTS.BOOK}${API_URL_CONSTANTS.BOOKNAME}`,{
+        name: name,
+    },
+    {
+        headers: {
+            Authorization: token,
+        },
+    });
+};
+
 export {
     getBooks,
     addBook,
     borrowBook,
-    returnBook
+    returnBook,
+    checkAssignBook,
+    searchBook
 }

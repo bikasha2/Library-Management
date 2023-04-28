@@ -21,8 +21,9 @@ const borrowBook = asyncHandler(async(req, res) => {
 const checkAssignBook = asyncHandler(async(req, res) => {
     const emailId = req.emailId
     const bookAssigned = await userService.checkAssignBook(emailId);
+    const books = bookAssigned.books;
     res.status(200).json({
-        bookAssigned,
+        books,
     });
 });
 

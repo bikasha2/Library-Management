@@ -4,6 +4,7 @@ const User = require('./userModel')
 const NotFoundException = require('../shared/exception/NotFoundException')
 const bookStatus = require('../admin/bookStatus')
 
+
 const searchBook = async(name) => {
    const serachedBook = await Book.find({name: name})
    if(serachedBook.length === 0) {
@@ -21,7 +22,7 @@ const borrowBook = async(emailId, bookId) => {
         throw new NotFoundException();
     }
     const user = emailId === '' ? null : await User.findOne({emailId});
-    user.assignedTo = _bookId;
+    user.assignedTo.push(_bookId);
     const updatedUser = await user.save();
     if(emailId === '') {
         return null;
@@ -39,12 +40,14 @@ const checkAssignBook = async(emailId) => {
     if(!user) {
         throw new NotFoundException();
     }
-    const _bookId = new mongoose.Types.ObjectId(user.assignedTo)
-    const book = await Book.findById(_bookId)
+    const userAssigned = user.assignedTo 
+    console.log(userAssigned)
+    const books = await Promise.all(userAssigned.map(async assign => {
+        const book = await Book.findById(assign);
+        return book;
+    }));
     return {
-        _id: book?._id,
-        name: book?.name,
-        category: book?.category,
+        books
     };
 }
 
@@ -57,17 +60,33 @@ const returnBook = async(emailId, bookId) => {
         throw new NotFoundException();
     }
     const user = emailId === '' ? null : await User.findOne({emailId});
-    if(user.assignedTo.equals(_bookId)) {
-        user.assignedTo = null;
-        const updateUser = await user.save();
-        return updateUser;
+    // console.log( user.assignedTo, _bookId)
+    const assign = user.assignedTo;
+    console.log({_bookId})
+    const assignedBookId = assign.find((assignedBookId)=> {
+        console.log(assignedBookId )
+        console.log(assignedBookId.equals(_bookId));
+        return assignedBookId.equals(_bookId)
+    })
+    console.log(assignedBookId)
+    if(assignedBookId === undefined) {
+        return {
+            msg: 'Book id did not match !'
+        }
     }
-    if(emailId === '') {
-        return null;
-    } 
-    return {
-        msg: 'Book id did not match !'
-    }
+    const bookPop = user.assignedTo.pop(bookId);
+    await user.save()
+    console.log(bookPop)
+    // if(assignedBookId[0].equals(_bookId)) {
+    //     user.assignedTo.pop(bookId);
+    //     const updateUser = await user.save();
+    //     return updateUser;
+    // }
+    // if(emailId === '') {
+    //     return null;
+    // } 
+    return bookPop;
+   
 }
 
 const getBooks = async() => {

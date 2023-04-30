@@ -12,7 +12,6 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button';
 import { searchBook } from '../service/BookService';
 import Card from 'react-bootstrap/Card';
-import Footer from '../component/Footer';
 import {
     borrowTooltip,
     returnTooltip,
@@ -70,7 +69,6 @@ const Book = () => {
                 })
                 setAsssignedBooks(prevState => [...prevState, res.data.data])
                 setBooks(updatedBooks);
-                // AssignedBook()
                 toast.success('Borrowed book successfully !')
             })
             .catch((err) => {

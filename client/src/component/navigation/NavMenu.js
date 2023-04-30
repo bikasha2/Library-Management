@@ -19,7 +19,7 @@ function NavMenu() {
         <>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top" >
                 <Container>
-                    <Navbar.Brand style={{ fontSize: '27px' }}>Library Management System</Navbar.Brand>
+                    <Navbar.Brand style={{ fontSize: '27px', float: 'left'}}>Library Management System</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">

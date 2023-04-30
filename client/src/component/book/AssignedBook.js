@@ -9,8 +9,8 @@ function AssignedBook({assigneBooks}) {
         <h2 style={{marginTop: '30px', padding: '20px'}}><u>Assigned Books List are below :</u></h2>
         {assigneBooks.map((book) => (
             <Card key={book._id} style={{ margin: '10px', width: '98.5%'}}>
-                <Card.Header>Book Details</Card.Header>
-                <Card.Body>
+                <Card.Header style={{fontSize: '25px', fontWeight: 'bold'}}>Book Details</Card.Header>
+                <Card.Body style={{fontSize: '20px'}}>
                     <Card.Text>
                         Name: {book.name}
                     </Card.Text>
@@ -27,7 +27,6 @@ function AssignedBook({assigneBooks}) {
             </Card>
         ))}
             <div style={{marginTop: '10vh'}}>
-                good
             </div>
         </>
     )

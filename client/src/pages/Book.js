@@ -13,7 +13,8 @@ import Button from 'react-bootstrap/Button';
 import { searchBook } from '../service/BookService';
 import Card from 'react-bootstrap/Card';
 import Footer from '../component/Footer';
-import {borrowTooltip,
+import {
+    borrowTooltip,
     returnTooltip,
     availableBookTooltip,
     assignedBookTooltip
@@ -28,7 +29,7 @@ const Book = () => {
     const [assignedBooks, setAsssignedBooks] = useState([]);
     const [closeCard, setCloseCard] = useState(true)
     let navigate = useNavigate();
-   
+
 
     useEffect(() => {
         checkAssignBook(state.token)
@@ -99,27 +100,27 @@ const Book = () => {
 
     const changeAssigne = (bookId, status) => {
         assigneChange(bookId, status, state.token)
-        .then(res => {
-            const updatedBooks = books.map(book => {
-                if (book._id === bookId && book.status === 'AVAILABLE') {
-                    return {
-                        ...book,
-                        status: 'ASSIGNED'
+            .then(res => {
+                const updatedBooks = books.map(book => {
+                    if (book._id === bookId && book.status === 'AVAILABLE') {
+                        return {
+                            ...book,
+                            status: 'ASSIGNED'
+                        }
+                    } else if (book._id === bookId && book.status === 'ASSIGNED') {
+                        return {
+                            ...book,
+                            status: 'AVAILABLE'
+                        }
                     }
-                } else if(book._id === bookId && book.status === 'ASSIGNED') {
-                    return {
-                        ...book,
-                        status: 'AVAILABLE'
-                    }
-                }
-                return book
+                    return book
+                })
+                setBooks(updatedBooks);
+                toast.success('Book status changed successfully !')
             })
-            setBooks(updatedBooks);
-            toast.success('Book status changed successfully !')
-        })
-        .catch((err) => {
-            toast.error('Book was not assigned !');
-        })
+            .catch((err) => {
+                toast.error('Book was not assigned !');
+            })
     }
 
     useEffect(() => {
@@ -146,49 +147,50 @@ const Book = () => {
     return (
         <>
             <NavMenu />
-            <Table responsive style={{ marginTop: '10vh' }}>
-                <thead style={{ textAlign: 'center' }}>
-                    <tr >
-                        <th>sno.</th>
-                        {tableHeadings.map((tableHeading) => (
-                            <th key={tableHeading}>{tableHeading}</th>
-                        ))}
-                        {state.role === 'ADMIN' ?
-                            <th>change status</th> : null
-                        }
-                        {state.role === 'STUDENT' ?
-                            <>
-                                <th>borrow</th>
-                                <th>return</th>
-                            </>
-                            : null
-                        }
-                    </tr>
-                </thead>
-                <tbody style={{ textAlign: 'center' }}>
-                    {books.map((book, index) => (
-                        <tr key={book._id}>
-                            <td >{index + 1}</td>
-                            <td>{book.name}  </td>
-                            <td>{book.category}</td>
-                            {
-                                book.status === 'AVAILABLE' ? 
-                                <td style={{color: 'green'}}>{book.status}</td>
-                                : 
-                                <td style={{color: 'red'}}>{book.status}</td>
-                            }
+            <div className='container' style={{padding: '30px'}}>
+                <Table responsive style={{ marginTop: '10vh', fontSize: '25px' }}>
+                    <thead style={{ textAlign: 'center' }}>
+                        <tr >
+                            <th>sno.</th>
+                            {tableHeadings.map((tableHeading) => (
+                                <th key={tableHeading}>{tableHeading}</th>
+                            ))}
                             {state.role === 'ADMIN' ?
-                                <td>
-                                    {
+                                <th>change status</th> : null
+                            }
+                            {state.role === 'STUDENT' ?
+                                <>
+                                    <th>borrow</th>
+                                    <th>return</th>
+                                </>
+                                : null
+                            }
+                        </tr>
+                    </thead>
+                    <tbody style={{ textAlign: 'center' }}>
+                        {books.map((book, index) => (
+                            <tr key={book._id}>
+                                <td >{index + 1}</td>
+                                <td>{book.name}  </td>
+                                <td>{book.category}</td>
+                                {
+                                    book.status === 'AVAILABLE' ?
+                                        <td style={{ color: 'green' }}>{book.status}</td>
+                                        :
+                                        <td style={{ color: 'red' }}>{book.status}</td>
+                                }
+                                {state.role === 'ADMIN' ?
+                                    <td>
+                                        {
                                             book.status === 'AVAILABLE' ?
                                                 <OverlayTrigger
-                                                placement="top"
-                                                delay={{ show: 250, hide: 400 }}
-                                                overlay={availableBookTooltip}
+                                                    placement="top"
+                                                    delay={{ show: 250, hide: 400 }}
+                                                    overlay={availableBookTooltip}
                                                 >
-                                                <button style={{ border: 'none'}} onClick={event => { changeAssigne(book._id, 'ASSIGNED') }} >
-                                                    <i className='far fa-arrow-alt-circle-up' style={{ fontSize: '24px'}}></i>
-                                                </button>
+                                                    <button style={{ border: 'none' }} onClick={event => { changeAssigne(book._id, 'ASSIGNED') }} >
+                                                        <i className='far fa-arrow-alt-circle-up' style={{ fontSize: '24px' }}></i>
+                                                    </button>
                                                 </OverlayTrigger>
                                                 :
                                                 <OverlayTrigger
@@ -197,104 +199,105 @@ const Book = () => {
                                                     overlay={assignedBookTooltip}
                                                 >
                                                     <button style={{ border: 'none' }} onClick={event => { changeAssigne(book._id, 'AVAILABLE') }}>
-                                                        <i className='far fa-arrow-alt-circle-down' style={{ fontSize: '24px'}}></i>
+                                                        <i className='far fa-arrow-alt-circle-down' style={{ fontSize: '24px' }}></i>
                                                     </button>
                                                 </OverlayTrigger>
                                         }
-                                </td> : null
-                            }
+                                    </td> : null
+                                }
 
-                            {state.role === 'STUDENT' ?
-                                <>
-                                    <td>
-                                        {
-                                            book.status === 'ASSIGNED' ?
-                                                <button style={{ border: 'none' }} disabled>
-                                                    <i className='fas fa-book' style={{ fontSize: '24px' }}></i>
-                                                </button>
-                                                :
-                                                <OverlayTrigger
-                                                    placement="top"
-                                                    delay={{ show: 250, hide: 400 }}
-                                                    overlay={borrowTooltip}
-                                                >
-                                                    <button style={{ border: 'none' }} onClick={event => { borrowBookHandler(book._id) }}>
+                                {state.role === 'STUDENT' ?
+                                    <>
+                                        <td>
+                                            {
+                                                book.status === 'ASSIGNED' ?
+                                                    <button style={{ border: 'none' }} disabled>
                                                         <i className='fas fa-book' style={{ fontSize: '24px' }}></i>
                                                     </button>
-                                                </OverlayTrigger>
-                                        }
-                                    </td>
-                                    <td>
-                                        {
-                                            book.status === 'AVAILABLE' ?
-                                                <button style={{ border: 'none' }} disabled>
-                                                    <i className='fas fa-sign-out-alt' style={{ fontSize: '24px' }}></i>
-                                                </button>
-                                                :
-                                                <OverlayTrigger
-                                                    placement="top"
-                                                    delay={{ show: 250, hide: 400 }}
-                                                    overlay={returnTooltip}
-                                                >
-                                                    <button style={{ border: 'none' }} onClick={event => { returnBookHandler(book._id) }}>
+                                                    :
+                                                    <OverlayTrigger
+                                                        placement="top"
+                                                        delay={{ show: 250, hide: 400 }}
+                                                        overlay={borrowTooltip}
+                                                    >
+                                                        <button style={{ border: 'none' }} onClick={event => { borrowBookHandler(book._id) }}>
+                                                            <i className='fas fa-book' style={{ fontSize: '24px' }}></i>
+                                                        </button>
+                                                    </OverlayTrigger>
+                                            }
+                                        </td>
+                                        <td>
+                                            {
+                                                book.status === 'AVAILABLE' ?
+                                                    <button style={{ border: 'none' }} disabled>
                                                         <i className='fas fa-sign-out-alt' style={{ fontSize: '24px' }}></i>
                                                     </button>
-                                                </OverlayTrigger>
-                                        }
-                                    </td>
-                                </>
-                                : null
-                            }
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-           {
-            state.role === 'STUDENT' ? 
-            <>
-                 <Form className="d-flex" style={{ margin: '10px', width: '98.5%' }}>
-                <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                    ref={nameRef}
-                />
-                <Button variant="outline-dark" onClick={searchBooks}>Search</Button>
-                </Form>
+                                                    :
+                                                    <OverlayTrigger
+                                                        placement="top"
+                                                        delay={{ show: 250, hide: 400 }}
+                                                        overlay={returnTooltip}
+                                                    >
+                                                        <button style={{ border: 'none' }} onClick={event => { returnBookHandler(book._id) }}>
+                                                            <i className='fas fa-sign-out-alt' style={{ fontSize: '24px' }}></i>
+                                                        </button>
+                                                    </OverlayTrigger>
+                                            }
+                                        </td>
+                                    </>
+                                    : null
+                                }
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
                 {
-                    Array.isArray(searchedBook) && searchedBook.length !== 0 && closeCard === true ?
+                    state.role === 'STUDENT' ?
                         <>
-                            <h2 style={{marginTop: '30px', padding: '20px'}}><u>Searched Books details are below :</u></h2>
-                            <Card style={{ margin: '10px', width: '98.5%' }}>
-                                <Card.Header>Book Details
-                                    <button style={{ float: 'right', border: 'none', background: 'none' }} onClick={closeButton}>
-                                        <i className="fa fa-times-circle" style={{ fontSize: '18px', color: 'red' }}></i>
-                                    </button>
-                                </Card.Header>
-                                <Card.Body>
-                                    <Card.Text>
-                                        Name: {searchedBook[0].name}
-                                    </Card.Text>
-                                    <Card.Text>
-                                        Category: {searchedBook[0].category}
-                                    </Card.Text>
-                                    <Card.Text>
-                                        Status: {searchedBook[0].status}
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </>
-                    
-                        :
-                        <>
-                        </>
+                            <Form className="d-flex" style={{ margin: '10px', width: '98.5%' }}>
+                                <Form.Control
+                                    type="search"
+                                    placeholder="Search"
+                                    className="me-2"
+                                    aria-label="Search"
+                                    ref={nameRef}
+                                />
+                                <Button variant="outline-dark" onClick={searchBooks}>Search</Button>
+                            </Form>
+                            {
+                                Array.isArray(searchedBook) && searchedBook.length !== 0 && closeCard === true ?
+                                    <>
+                                        <h2 style={{ marginTop: '30px', padding: '20px' }}><u>Searched Books details are below :</u></h2>
+                                        <Card style={{ margin: '10px', width: '98.5%' }}>
+                                            <Card.Header style={{fontSize: '25px', fontWeight: 'bold'}}>Book Details
+                                                <button style={{ float: 'right', border: 'none', background: 'none' }} onClick={closeButton}>
+                                                    <i className="fa fa-times-circle" style={{ fontSize: '28px', color: 'red' }}></i>
+                                                </button>
+                                            </Card.Header>
+                                            <Card.Body style={{fontSize: '20px'}}>
+                                                <Card.Text>
+                                                    Name: {searchedBook[0].name}
+                                                </Card.Text>
+                                                <Card.Text>
+                                                    Category: {searchedBook[0].category}
+                                                </Card.Text>
+                                                <Card.Text>
+                                                    Status: {searchedBook[0].status}
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                        <div style={{marginTop: '10vh'}}>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                    </>
+                            }
+                        </> : null
                 }
-            </> : null
-           }
 
-            {assignedBooks.length > 0 ? <AssignedBook assigneBooks={assignedBooks}/> : null}
-            <Footer />
+                {assignedBooks.length > 0 ? <AssignedBook assigneBooks={assignedBooks} /> : null}
+            </div>
         </>
     )
 };

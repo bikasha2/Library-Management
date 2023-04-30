@@ -10,7 +10,6 @@ const getBooks = async(token) => {
 };
 
 const addBook = async(name, category, token) => {
-    console.log(token)
     return axiosInstance.post(API_URL_CONSTANTS.ADDBOOK,
     {
         name,
@@ -35,6 +34,17 @@ const borrowBook = async(id, token) => {
 
 const returnBook = async(id, token) => {
     return axiosInstance.post(`${API_URL_CONSTANTS.BOOK}/${id}${API_URL_CONSTANTS.RETURN}`,{},
+    {
+        headers: {
+            Authorization: token,
+        },
+    });
+};
+
+const assigneChange = async(bookId, status, token) => {
+    return axiosInstance.put(`${API_URL_CONSTANTS.BOOKSTATUS}/${bookId}`,{
+        status: status,
+    },
     {
         headers: {
             Authorization: token,
@@ -68,5 +78,6 @@ export {
     borrowBook,
     returnBook,
     checkAssignBook,
-    searchBook
+    searchBook,
+    assigneChange
 }

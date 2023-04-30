@@ -7,7 +7,8 @@ const API_URL_CONSTANTS = {
     BOOK: '/book',
     RETURN: '/return',
     CHECKASSIGN: '/check-assign',
-    BOOKNAME: '/book-name'
+    BOOKNAME: '/book-name',
+    BOOKSTATUS: '/book-status'
 };
 
 export default API_URL_CONSTANTS;

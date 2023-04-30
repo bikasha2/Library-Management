@@ -1,24 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Button from 'react-bootstrap/Button';
+import React from 'react'
 import Card from 'react-bootstrap/Card';
-import { AuthContext } from '../../context/AuthContextProvider';
 import { checkAssignBook } from '../../service/BookService';
 import moment from 'moment'
 
 function AssignedBook({assigneBooks}) {
-    // const [books, setBooks] = useState([])
-    // const {state} = useContext(AuthContext)
-    // useEffect(()=> {
-    //     checkAssignBook(state.token)
-    //     .then((res) => {
-    //         setBooks(res.data.books)
-    //     })
-    //     .catch((err) => {
-    //         console.log(err)
-    //     }) 
-    // }, [])
     return (
         <>
+        <h2 style={{marginTop: '30px', padding: '20px'}}><u>Assigned Books List are below :</u></h2>
         {assigneBooks.map((book) => (
             <Card key={book._id} style={{ margin: '10px', width: '98.5%'}}>
                 <Card.Header>Book Details</Card.Header>
@@ -35,11 +23,12 @@ function AssignedBook({assigneBooks}) {
                     <Card.Text>
                         Borrowed on: {moment(Date.now()).format('MMMM Do YYYY, h:mm:ss a')}
                     </Card.Text>
-                    
                 </Card.Body>
             </Card>
         ))}
-            
+            <div style={{marginTop: '10vh'}}>
+                good
+            </div>
         </>
     )
 }

@@ -19,7 +19,6 @@ function ModalBook(props) {
     setBookIsInProgress(true);
         addBook(name, category, state.token)
             .then((res) => {
-            console.log(res)
             toast.success('Book Added Successfully !');
         })
         .catch((err) => {

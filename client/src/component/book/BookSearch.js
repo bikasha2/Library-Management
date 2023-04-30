@@ -13,7 +13,6 @@ const BookSearch = () => {
         const name = nameRef.current.value;
         searchBook(state.token, name)
         .then((res) => {
-            console.log(res.data);
             setSearchedBook(res.data)
         })
     }

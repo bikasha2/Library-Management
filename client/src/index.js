@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
-import {createBrowserRouter, RouterProvider, useNavigate} from 'react-router-dom';
-import AuthContextProvider, { AuthContext } from './context/AuthContextProvider'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import AuthContextProvider from './context/AuthContextProvider'
 import Book from './pages/Book';
 import Login from './pages/Login';
 import {ToastContainer} from 'react-toastify';

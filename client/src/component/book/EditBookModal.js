@@ -9,6 +9,7 @@ import { editBook } from '../../service/BookService';
 
 function EditModalBook(props) {
    const {id} = props;
+   console.log(id)
     const nameRef = useRef();
     const categoryRef = useRef();
     const [bookIsInProgress, setBookIsInProgress] = useState(false);
@@ -20,7 +21,7 @@ function EditModalBook(props) {
         setBookIsInProgress(true);
         editBook(id, name, category, state.token)
             .then((res) => {
-            // setBooks(prevState => [...prevState, res.data.data])
+            props.cb(res.data.data)
             toast.success('Book Updateed Successfully !');
         })
         .catch((err) => {

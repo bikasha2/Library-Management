@@ -34,7 +34,7 @@ const Book = () => {
     const [bookId, setBookId] = useState(null)
     let navigate = useNavigate();
 
-   
+
 
     useEffect(() => {
         checkAssignBook(state.token)
@@ -47,7 +47,23 @@ const Book = () => {
             })
     }, [state.token])
 
-  
+    useEffect(() => {
+        if (!state.token) {
+            return navigate('/')
+        }
+        getBooks(state.token)
+            .then((res) => {
+                if (res.status === 200) {
+                    setBooks(res.data.data);
+                    const book = res.data.data[0]
+                    const tableHeadings = Object.keys(book).filter(key => ["name", "category", "status"].includes(key));
+                    setTableHeadings(tableHeadings);
+                }
+            })
+            .catch((err) => {
+                throw err;
+            })
+    }, [navigate, state.token]);
 
     const searchBooks = () => {
         let name = nameRef.current.value;
@@ -56,7 +72,7 @@ const Book = () => {
                 setSearchedBook(res.data.data);
             })
         nameRef.current.value = '';
-        
+
     }
     const closeButton = () => {
         setCloseCard(false);
@@ -107,8 +123,7 @@ const Book = () => {
     const deleteBookHandler = (id) => {
         deleteBook(id, state.token)
             .then(res => {
-                console.log(res)
-                setBooks(books => books.filter(({ id }) => id !== res.data.id));
+                setBooks(books.filter(({_id}) => _id !== res.data.id))
                 toast.success('Book deleted successfully !')
             })
             .catch((err) => {
@@ -141,39 +156,22 @@ const Book = () => {
             })
     }
 
-    useEffect(() => {
-        if (!state.token) {
-            return navigate('/')
-        }
-        getBooks(state.token)
-            .then((res) => {
-                if (res.status === 200) {
-                    setBooks(res.data.data);
-                    const book = res.data.data[0]
-                    const tableHeadings = Object.keys(book).filter(key => ["name", "category", "status"].includes(key));
-                    setTableHeadings(tableHeadings);
-                }
-            })
-            .catch((err) => {
-                throw err;
-            })
-    }, [navigate, state.token]);
     if (books.length === 0) {
         return (
-        <>
-            <NavMenu />
-            <div style={{marginTop: '10vh', fontWeight: 'bold', fontSize: '24px'}}> No books available</div>
-            <Footer />
-         </>
+            <>
+                <NavMenu />
+                <div style={{ marginTop: '10vh', fontWeight: 'bold', fontSize: '24px' }}> No books available</div>
+                <Footer />
+            </>
         )
-        
+
     }
-   
+
 
     return (
         <>
-            <NavMenu />
-            <div className='container' style={{padding: '30px'}}>
+            <NavMenu cb={(book) => setBooks(books => [book, ...books])} />
+            <div className='container' style={{ padding: '30px' }}>
                 <Table responsive style={{ marginTop: '10vh', fontSize: '25px' }}>
                     <thead style={{ textAlign: 'center' }}>
                         <tr >
@@ -181,16 +179,16 @@ const Book = () => {
                             {tableHeadings.map((tableHeading) => (
                                 <th key={tableHeading}>{tableHeading}</th>
                             ))}
-                            
+
                             {state.role === 'ADMIN' ?
-                            <>
-                                <th>change status</th>
-                                <th>edit</th>
-                                <th>delete</th>
-                            </>
-                            : null
+                                <>
+                                    <th>change status</th>
+                                    <th>edit</th>
+                                    <th>delete</th>
+                                </>
+                                : null
                             }
-                            
+
                             {state.role === 'STUDENT' ?
                                 <>
                                     <th>borrow</th>
@@ -240,44 +238,45 @@ const Book = () => {
                                 }
 
                                 {state.role === 'ADMIN' ?
-                                <>
-                                     <td>
-                                        
-                                        <OverlayTrigger
-                                            placement="top"
-                                            delay={{ show: 250, hide: 400 }}
-                                            overlay={editBookTooltip}
-                                        >
-                                             <>
-                                                <Button  variant="light" style={{border: 'none', backgroundColor: 'var(--bs-body-color)', color: 'white'}} onClick={(event) => {
-                                                    setModalShow(true);
-                                                    setBookId(event.value);
-                                                }}>
-                                                     <i className='fas fa-edit' style={{ fontSize:'18px', color: 'green'}}></i>
-                                                </Button>
+                                    <>
+                                        <td>
 
-                                                <EditModalBook
-                                                    show={modalShow}
-                                                    onHide={() => setModalShow(false)}
-                                                    id={bookId}
-                                                />
-                                            </>
-                                        </OverlayTrigger>
-                                        
-                                    </td>
-                                     <td>
-                                        <OverlayTrigger
-                                            placement="top"
-                                            delay={{ show: 250, hide: 400 }}
-                                            overlay={deleteBookTooltip}
-                                        >
-                                            <button style={{ border: 'none' }} onClick={event => {deleteBookHandler(book._id)}}>
-                                                <i className='fas fa-trash-alt' style={{ fontSize:'18px', color: 'red'}}></i>
-                                            </button>
-                                        </OverlayTrigger>
-                                        
-                                    </td>
-                                </>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                delay={{ show: 250, hide: 400 }}
+                                                overlay={editBookTooltip}
+                                            >
+                                                <>
+                                                    <Button variant="light" style={{ border: 'none', backgroundColor: 'var(--bs-body-color)', color: 'white' }} onClick={(event) => {
+                                                        setBookId(book._id)
+                                                        setModalShow(true);
+                                                    }}>
+                                                        <i className='fas fa-edit' style={{ fontSize: '18px', color: 'green' }}></i>
+                                                    </Button>
+
+                                                    <EditModalBook
+                                                        show={modalShow && bookId}
+                                                        onHide={() => setModalShow(false)}
+                                                        id={bookId}
+                                                        cb={(book) => setBooks(books =>[book, ...books])}
+                                                    />
+                                                </>
+                                            </OverlayTrigger>
+
+                                        </td>
+                                        <td>
+                                            <OverlayTrigger
+                                                placement="top"
+                                                delay={{ show: 250, hide: 400 }}
+                                                overlay={deleteBookTooltip}
+                                            >
+                                                <button style={{ border: 'none' }} onClick={event => { deleteBookHandler(book._id) }}>
+                                                    <i className='fas fa-trash-alt' style={{ fontSize: '18px', color: 'red' }}></i>
+                                                </button>
+                                            </OverlayTrigger>
+
+                                        </td>
+                                    </>
                                     : null
                                 }
 
@@ -344,12 +343,12 @@ const Book = () => {
                                     <>
                                         <h2 style={{ marginTop: '30px', padding: '20px' }}><u>Searched Books details are below :</u></h2>
                                         <Card style={{ margin: '10px', width: '98.5%' }}>
-                                            <Card.Header style={{fontSize: '25px', fontWeight: 'bold'}}>Book Details
+                                            <Card.Header style={{ fontSize: '25px', fontWeight: 'bold' }}>Book Details
                                                 <button style={{ float: 'right', border: 'none', background: 'none' }} onClick={closeButton}>
                                                     <i className="fa fa-times-circle" style={{ fontSize: '28px', color: 'red' }}></i>
                                                 </button>
                                             </Card.Header>
-                                            <Card.Body style={{fontSize: '20px'}}>
+                                            <Card.Body style={{ fontSize: '20px' }}>
                                                 <Card.Text>
                                                     Name: {searchedBook[0].name}
                                                 </Card.Text>
@@ -361,7 +360,7 @@ const Book = () => {
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
-                                        <div style={{marginTop: '10vh'}}>
+                                        <div style={{ marginTop: '10vh' }}>
                                         </div>
                                     </>
                                     :

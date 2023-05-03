@@ -6,7 +6,7 @@ import BookModal from '../../component/book/BookModal'
 import { AuthContext } from '../../context/AuthContextProvider';
 import { AUTH_REDUCER_ACTION } from '../../reducer/AuthReducer';
 
-function NavMenu() {
+function NavMenu({cb}) {
     const { state, dispatch } = useContext(AuthContext);
     const logOut = () => {
         sessionStorage.clear('token');
@@ -24,7 +24,7 @@ function NavMenu() {
                         <Nav className="me-auto">
                         </Nav>
                         <Nav >
-                            {state.role === "ADMIN" ? BookModal() : null}
+                            {state.role === "ADMIN" ? < BookModal cb={cb}/> : null}
                         </Nav>
                         <Nav>
                            

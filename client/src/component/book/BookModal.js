@@ -19,7 +19,7 @@ function ModalBook(props) {
     setBookIsInProgress(true);
         addBook(name, category, state.token)
             .then((res) => {
-            // setBooks(prevState => [...prevState, res.data.data])
+            props.cb(res.data.data)
             toast.success('Book Added Successfully !');
         })
         .catch((err) => {
@@ -90,7 +90,7 @@ function ModalBook(props) {
     );
 }
 
-const BookModal = () => {
+const BookModal = ({cb}) => {
     const [modalShow, setModalShow] = React.useState(false);
    
     return (
@@ -104,6 +104,7 @@ const BookModal = () => {
             <ModalBook
                 show={modalShow}
                 onHide={() => setModalShow(false)}
+                cb={cb}
             />
         </>
     )

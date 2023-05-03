@@ -18,6 +18,7 @@ import {
     availableBookTooltip,
     assignedBookTooltip
 } from '../util/Tooltip';
+import Footer from '../component/Footer';
 
 const Book = () => {
     let nameRef = useRef();
@@ -296,6 +297,7 @@ const Book = () => {
 
                 {assignedBooks.length > 0 ? <AssignedBook assigneBooks={assignedBooks} /> : null}
             </div>
+            <Footer />
         </>
     )
 };

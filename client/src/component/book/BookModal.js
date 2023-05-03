@@ -37,7 +37,7 @@ function ModalBook(props) {
         >
              <Form  onSubmit={submitHandler}>
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title id="contained-modal-title-vcenter" style={{fontWeight: 'bold'}}>
                     Add Book
                 </Modal.Title>
             </Modal.Header>
@@ -91,7 +91,7 @@ const BookModal = () => {
     return (
         <>
             <Button variant="light" style={{border: 'none', backgroundColor: 'var(--bs-body-color)', color: 'white'}} onClick={() => setModalShow(true)}>
-                AddBook
+                <span style={{fontSize: '22px'}}>AddBook</span>
             </Button>
 
             <ModalBook

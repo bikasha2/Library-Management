@@ -41,7 +41,6 @@ const checkAssignBook = async(emailId) => {
         throw new NotFoundException();
     }
     const userAssigned = user.assignedTo 
-    console.log(userAssigned)
     const books = await Promise.all(userAssigned.map(async assign => {
         const book = await Book.findById(assign);
         return book;
@@ -60,15 +59,10 @@ const returnBook = async(emailId, bookId) => {
         throw new NotFoundException();
     }
     const user = emailId === '' ? null : await User.findOne({emailId});
-    // console.log( user.assignedTo, _bookId)
     const assign = user.assignedTo;
-    console.log({_bookId})
     const assignedBookId = assign.find((assignedBookId)=> {
-        console.log(assignedBookId )
-        console.log(assignedBookId.equals(_bookId));
         return assignedBookId.equals(_bookId)
     })
-    console.log(assignedBookId)
     if(assignedBookId === undefined) {
         return {
             msg: 'Book id did not match !'
@@ -76,15 +70,6 @@ const returnBook = async(emailId, bookId) => {
     }
     const bookPop = user.assignedTo.pop(bookId);
     await user.save()
-    console.log(bookPop)
-    // if(assignedBookId[0].equals(_bookId)) {
-    //     user.assignedTo.pop(bookId);
-    //     const updateUser = await user.save();
-    //     return updateUser;
-    // }
-    // if(emailId === '') {
-    //     return null;
-    // } 
     return bookPop;
    
 }

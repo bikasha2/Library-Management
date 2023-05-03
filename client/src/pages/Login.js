@@ -9,6 +9,7 @@ import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Spinner } from 'react-bootstrap';
 import NavMenu from '../component/navigation/NavMenu';
+import Footer from '../component/Footer';
 
 function Login() {
     const emailRef = useRef();
@@ -84,6 +85,7 @@ function Login() {
                     </Form>
                 </Card.Body>
             </Card>
+            <Footer />
         </>
     );
 }

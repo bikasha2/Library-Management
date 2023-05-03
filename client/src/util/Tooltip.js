@@ -20,10 +20,22 @@ const assignedBookTooltip = (props) => (
         Click to make book available
     </Tooltip>
 );
+const deleteBookTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        Click to delete book available
+    </Tooltip>
+);
+const editBookTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        Click to edit a book
+    </Tooltip>
+);
 
 export {
     borrowTooltip,
     returnTooltip,
     availableBookTooltip,
-    assignedBookTooltip
+    assignedBookTooltip,
+    deleteBookTooltip,
+    editBookTooltip
 }

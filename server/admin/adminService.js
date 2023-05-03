@@ -21,7 +21,8 @@ const updateBook = async(bookId, updatedBookData) => {
 
 const deleteBook = async(bookId) => {
     const _id = new mongoose.Types.ObjectId(bookId);
-    return await Book.findByIdAndRemove(_id)
+    const book = await Book.findByIdAndRemove(_id)
+    return book;
 }
 
 const bookStatus = async(bookId, bookStatus) => {

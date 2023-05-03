@@ -41,6 +41,27 @@ const returnBook = async(id, token) => {
     });
 };
 
+const deleteBook = async(id, token) => {
+    return axiosInstance.delete(`${API_URL_CONSTANTS.BOOK}/${id}`,
+    {
+        headers: {
+            Authorization: token,
+        },
+    });
+};
+
+const editBook = async(bookId, name, category, token) => {
+    return axiosInstance.put(`${API_URL_CONSTANTS.BOOK}/${bookId}`,{
+        name: name,
+        category: category,
+    },
+    {
+        headers: {
+            Authorization: token,
+        },
+    });
+};
+
 const assigneChange = async(bookId, status, token) => {
     return axiosInstance.put(`${API_URL_CONSTANTS.BOOKSTATUS}/${bookId}`,{
         status: status,
@@ -79,5 +100,7 @@ export {
     returnBook,
     checkAssignBook,
     searchBook,
-    assigneChange
+    assigneChange,
+    deleteBook,
+    editBook
 }

@@ -8,12 +8,11 @@ const BookSchema = new Schema({
     name: {
         type: String,
         unique: true,
-        required: true,
+       
     },
     category: {
         type: String,
         unique: true,
-        required: [true, CONSTANTS.CATEGORY_REQUIRED],
     },
     status: {
         type: String,

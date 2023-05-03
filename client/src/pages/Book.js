@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import NavMenu from '../component/navigation/NavMenu';
 import { AuthContext } from '../context/AuthContextProvider';
-import { assigneChange, borrowBook, checkAssignBook, getBooks, returnBook } from '../service/BookService';
+import { assigneChange, borrowBook, checkAssignBook, deleteBook, getBooks, returnBook } from '../service/BookService';
 import Table from 'react-bootstrap/Table';
-import { Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -16,9 +15,12 @@ import {
     borrowTooltip,
     returnTooltip,
     availableBookTooltip,
-    assignedBookTooltip
+    assignedBookTooltip,
+    deleteBookTooltip,
+    editBookTooltip
 } from '../util/Tooltip';
 import Footer from '../component/Footer';
+import EditModalBook from '../component/book/EditBookModal';
 
 const Book = () => {
     let nameRef = useRef();
@@ -28,8 +30,11 @@ const Book = () => {
     const [searchedBook, setSearchedBook] = useState(null)
     const [assignedBooks, setAsssignedBooks] = useState([]);
     const [closeCard, setCloseCard] = useState(true)
+    const [modalShow, setModalShow] = useState(false);
+    const [bookId, setBookId] = useState(null)
     let navigate = useNavigate();
 
+   
 
     useEffect(() => {
         checkAssignBook(state.token)
@@ -42,6 +47,8 @@ const Book = () => {
             })
     }, [state.token])
 
+  
+
     const searchBooks = () => {
         let name = nameRef.current.value;
         searchBook(state.token, name)
@@ -49,6 +56,7 @@ const Book = () => {
                 setSearchedBook(res.data.data);
             })
         nameRef.current.value = '';
+        
     }
     const closeButton = () => {
         setCloseCard(false);
@@ -91,6 +99,17 @@ const Book = () => {
                 setAsssignedBooks(prevAssignedBooks => prevAssignedBooks.filter(({ _id }) => _id !== res.data.data));
                 setBooks(updatedBooks);
                 toast.success('Returned book successfully !')
+            })
+            .catch((err) => {
+                toast.error('Book was not returned !');
+            })
+    }
+    const deleteBookHandler = (id) => {
+        deleteBook(id, state.token)
+            .then(res => {
+                console.log(res)
+                setBooks(books => books.filter(({ id }) => id !== res.data.id));
+                toast.success('Book deleted successfully !')
             })
             .catch((err) => {
                 toast.error('Book was not returned !');
@@ -140,8 +159,16 @@ const Book = () => {
             })
     }, [navigate, state.token]);
     if (books.length === 0) {
-        return <div style={{ display: 'flex', justifyContent: 'center', marginTop: '35vh' }}><Spinner /> </div>
+        return (
+        <>
+            <NavMenu />
+            <div style={{marginTop: '10vh', fontWeight: 'bold', fontSize: '24px'}}> No books available</div>
+            <Footer />
+         </>
+        )
+        
     }
+   
 
     return (
         <>
@@ -154,9 +181,16 @@ const Book = () => {
                             {tableHeadings.map((tableHeading) => (
                                 <th key={tableHeading}>{tableHeading}</th>
                             ))}
+                            
                             {state.role === 'ADMIN' ?
-                                <th>change status</th> : null
+                            <>
+                                <th>change status</th>
+                                <th>edit</th>
+                                <th>delete</th>
+                            </>
+                            : null
                             }
+                            
                             {state.role === 'STUDENT' ?
                                 <>
                                     <th>borrow</th>
@@ -203,6 +237,48 @@ const Book = () => {
                                                 </OverlayTrigger>
                                         }
                                     </td> : null
+                                }
+
+                                {state.role === 'ADMIN' ?
+                                <>
+                                     <td>
+                                        
+                                        <OverlayTrigger
+                                            placement="top"
+                                            delay={{ show: 250, hide: 400 }}
+                                            overlay={editBookTooltip}
+                                        >
+                                             <>
+                                                <Button  variant="light" style={{border: 'none', backgroundColor: 'var(--bs-body-color)', color: 'white'}} onClick={(event) => {
+                                                    setModalShow(true);
+                                                    setBookId(event.value);
+                                                }}>
+                                                     <i className='fas fa-edit' style={{ fontSize:'18px', color: 'green'}}></i>
+                                                </Button>
+
+                                                <EditModalBook
+                                                    show={modalShow}
+                                                    onHide={() => setModalShow(false)}
+                                                    id={bookId}
+                                                />
+                                            </>
+                                        </OverlayTrigger>
+                                        
+                                    </td>
+                                     <td>
+                                        <OverlayTrigger
+                                            placement="top"
+                                            delay={{ show: 250, hide: 400 }}
+                                            overlay={deleteBookTooltip}
+                                        >
+                                            <button style={{ border: 'none' }} onClick={event => {deleteBookHandler(book._id)}}>
+                                                <i className='fas fa-trash-alt' style={{ fontSize:'18px', color: 'red'}}></i>
+                                            </button>
+                                        </OverlayTrigger>
+                                        
+                                    </td>
+                                </>
+                                    : null
                                 }
 
                                 {state.role === 'STUDENT' ?

@@ -5,25 +5,26 @@ import Form from 'react-bootstrap/Form';
 import { Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../context/AuthContextProvider';
-import { addBook } from '../../service/BookService';
+import { editBook } from '../../service/BookService';
 
-function ModalBook(props) {
+function EditModalBook(props) {
+   const {id} = props;
     const nameRef = useRef();
     const categoryRef = useRef();
     const [bookIsInProgress, setBookIsInProgress] = useState(false);
     const { state } = useContext(AuthContext);
     const submitHandler = (event) => {
         event.preventDefault();
-        let name = nameRef.current.value;
-        let category = categoryRef.current.value;
-    setBookIsInProgress(true);
-        addBook(name, category, state.token)
+        const name = nameRef.current.value;
+        const category = categoryRef.current.value;
+        setBookIsInProgress(true);
+        editBook(id, name, category, state.token)
             .then((res) => {
             // setBooks(prevState => [...prevState, res.data.data])
-            toast.success('Book Added Successfully !');
+            toast.success('Book Updateed Successfully !');
         })
         .catch((err) => {
-            toast.error('Book was not added !');
+            toast.error('Book was not updated !');
         })
         .finally(() => {
             setBookIsInProgress(false);
@@ -41,7 +42,7 @@ function ModalBook(props) {
              <Form  onSubmit={submitHandler}>
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter" style={{fontWeight: 'bold'}}>
-                    Add Book
+                    Edit Book
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -54,7 +55,7 @@ function ModalBook(props) {
                       placeholder='Name'
                       ref={nameRef}
                       name='emailId'
-                      required
+                     
                       disabled={bookIsInProgress}
                     />
                   </Form.Group>
@@ -65,7 +66,7 @@ function ModalBook(props) {
                       type='text'
                       placeholder='Category'
                       ref={categoryRef}
-                      required
+                      
                       name='category'
                       disabled={bookIsInProgress}
                     />
@@ -90,24 +91,7 @@ function ModalBook(props) {
     );
 }
 
-const BookModal = () => {
-    const [modalShow, setModalShow] = React.useState(false);
-   
-    return (
-        <>
-            <Button variant="light" style={{border: 'none', backgroundColor: 'var(--bs-body-color)', color: 'white'}} onClick={() => {
-                setModalShow(true);
-            }}>
-                <span style={{fontSize: '22px'}}>AddBook</span>
-            </Button>
 
-            <ModalBook
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-            />
-        </>
-    )
-}
 
-export default BookModal;
+export default EditModalBook;
 

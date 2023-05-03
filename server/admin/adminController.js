@@ -23,9 +23,10 @@ const updateBook = asyncHandler(async(req, res) => {
 
 const deleteBook = asyncHandler(async(req, res) => {
     const {bookId} = req.params;
-    await adminService.deleteBook(bookId);
+    const book = await adminService.deleteBook(bookId);
+    const id = book._id
     res.status(200).json({
-        message: 'Book has been deleted successfully !'
+       id,
     })
 })
 
